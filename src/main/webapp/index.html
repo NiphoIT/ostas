@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html ng-app="myFeApp">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+
+	 <!-- Angularjs link file -->
+	<script src="bootstrap\js\angular.min.js"></script>
+	<script src="bootstrap\js\angular-animate.min.js"></script>
+	<script src="bootstrap\js\angular-sanitize.min.js"></script>
+	
+	
+	<!-- <!-- CSS boostrap theme file -->
+	<link rel="stylesheet" href="bootstrap\css\bootstrap-theme.min.css">
+	<link rel="stylesheet" href="bootstrap\css\bootstrap.min.css">
+	<script src="bootstrap\js\ui-bootstrap-tpls-2.5.0.js"></script>
+
+	<!-- My CSS -->
+	<link rel="stylesheet" href="bootstrap\css\app.css">
+	<!-- My Script link file -->
+ 	<script src="bootstrap\js\app.js"></script>
+	
+
+</head>
+<body >
+
+	<div class="container" ng-controller="contactsController">
+	<h2>FE Registration</h2>
+
+		<form name="contactForm" class="form-horizontal" ng-submit="submit()" novalidate>
+
+			<div class="form-group">
+      			<label class="control-label col-sm-2" >Title</label>
+      			<div class="col-sm-2">
+        			<select class="form-control" name="title"  ng-model="contact.title" ng-required="true">
+      					<option>Mr</option>
+        				<option>Mrs</option>
+        				<option>Miss</option>
+        				<option>Doc</option>
+      				</select>
+      			</div>
+
+      			<div class="col-sm-2" ng-show="contactForm.title.$touched && contactForm.title.$invalid">
+      				<span>
+						<small style="color: red; display:block;">Enter valid title</small>
+      				</span>
+    			 </div>
+
+    		</div>
+
+    		<div class="form-group">
+      			<label class="control-label col-sm-2" >Name</label>
+      			<div class="col-sm-7">
+        			<input type="text" class="form-control"   placeholder="Name" name="name" ng-model="contact.name" ng-required="true" >
+        			<div class="col-sm-5" ng-show="contactForm.name.$touched && contactForm.name.$invalid">
+      				<span>
+						<small style="color: red; display:block;">Enter valid name</small>
+      					</span>
+    				 </div>
+      			</div>
+    		</div>
+
+
+    		<div class="form-group">
+      			<label class="control-label col-sm-2" >Surname</label>
+      			<div class="col-sm-7">
+        			<input type="text" class="form-control"  placeholder="Surname" name="surname" ng-model="contact.surname" ng-required="true">
+      				
+      				<div class="col-sm-5" ng-show="contactForm.surname.$touched && contactForm.surname.$invalid">
+      					<span>
+							<small style="color: red; display:block;">Enter valid surname</small>
+      					</span>
+    			   </div>
+      			</div>
+    		</div>
+
+    		<div class="form-group">
+      			<label class="control-label col-sm-2" >Date of Birth</label>
+      			<div class="col-sm-4">
+        			<input type="date" class="form-control" placeholder="yyyy-mm-dd"  name="dateOfBirth" ng-model="contact.dateOfBirth" ng-required="true">
+        			
+        			<div class="col-sm-5" ng-show="contactForm.dateOfBirth.$touched && contactForm.dateOfBirth.$invalid">
+      					<span>
+							<small style="color: red; display:block;">Enter valid date Of birth</small>
+      					</span>
+    			   </div>
+      			</div>
+    		</div>
+
+    		<div class="form-group" >
+      			<label class="control-label col-sm-2" >Contact Number (Cell)</label>
+      			<div class="col-sm-7" ng-controller="cellPatternController">
+        			<input type="text" class="form-control" placeholder="Cell Number" name="cellnumber" ng-model="contact.cellnumber" ng-pattern="regex" ng-required="!contact.email">
+        			 
+        			 <div class="col-sm-5" ng-show="contactForm.cellnumber.$touched && contactForm.cellnumber.$invalid && contactForm.email.$valid">
+      					<span>
+							<small style="color: red; display:block;">Enter valid 10 digit cell number  </small>
+      					</span>
+    			    </div>
+    			   
+    			    <!-- <div class="col-sm-5" ng-show="contactForm.cellnumber.$touched && contactForm.cellnumber.$invalid && contactForm.email.$valid">
+      					$touched {{}}
+    			   </div> -->
+        			 
+      				<div class="col-sm-5" ng-show="contactForm.cellnumber.$touched && contactForm.cellnumber.$invalid && contactForm.email.$untouched ">
+      					<span>
+							<small style="color: red; display:block;">Enter valid 10 digit cell number</small>
+      					</span>
+    			   </div>
+    			   
+    			   <div class="col-sm-5" ng-show="contactForm.cellnumber.$touched && contactForm.cellnumber.$invalid && contactForm.email.$touched && contactForm.email.$invalid">
+      					<span>
+							<small style="color: red; display:block;">Enter valid 10 digit cell number or email</small>
+      					</span>
+    			   </div>
+    			   
+      			</div>
+    		</div>
+
+    		<div class="form-group">
+      			<label class="control-label col-sm-2" >Email</label>
+      			<div class="col-sm-7" ng-controller="emailPatternController">
+        			<input type="text" class="form-control" placeholder="your@email.com" name="email" ng-model="contact.email" ng-pattern="regex" ng-required="!contact.cellnumber">
+      			
+      				<div class="col-sm-5" ng-show="contactForm.email.$touched && contactForm.email.$invalid && contactForm.cellnumber.$valid ">
+      					<span>
+							<small style="color: red; display:block;">Enter valid email address </small>
+      					</span>
+      					
+    			   </div>
+      			
+      				<div class="col-sm-5" ng-show="contactForm.email.$touched && contactForm.email.$invalid && contactForm.cellnumber.$untouched ">
+      					<span>
+							<small style="color: red; display:block;">Enter valid email address </small>
+      					</span>
+      					
+    			   </div>
+    			   
+    			    <div class="col-sm-5" ng-show="contactForm.cellnumber.$touched && contactForm.cellnumber.$invalid && contactForm.email.$touched && contactForm.email.$invalid">
+      					<span>
+							<small style="color: red; display:block;">Enter valid email or 10 digit cell number</small>
+      					</span>
+    			   </div>
+      				
+      			</div>
+    		</div>
+
+    		<div class="form-group">
+      			<label class="control-label col-sm-2" >Home Address (Optional)</label>
+      			<div class="col-sm-7">
+        			<input type="text" class="form-control" placeholder="Home Address"  name="homeaddress" ng-model="contact.homeaddress" >
+      			</div>
+    		</div>
+
+    		<div class="form-group">
+      			<label class="control-label col-sm-2" >Product</label>
+      			<div class="col-sm-7" >
+      			<!--  {{ $item }} -->
+      			<!--  {{ jasonDataObjects}} -->
+      			<!--  {{ datame}} -->
+      			
+        			<input type="text" class="form-control" placeholder="Product" name="product" ng-model="contact.product" 
+        			
+        			 uib-typeahead="ad for ad in getLocation($viewValue)" 
+    
+    				typeahead-loading="loadingLocations" 
+    				typeahead-no-results="noResults" 
+    				typeahead-on-select="onSelect($item, $model, $label)"
+        			
+        			ng-required="true">
+        			
+        			<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+   					<div ng-show="noResults">
+      					<i class="glyphicon glyphicon-remove"></i> No Results Found
+    				</div>
+      			
+      				<div class="col-sm-5" ng-show="contactForm.product.$touched && contactForm.product.$invalid">
+      					<span>
+							<small style="color: red; display:block;">Enter valid product id </small>
+      					</span>
+    			   </div>
+    			   
+    			  
+      			</div>
+    		</div>
+
+
+    		<div class="form-group">
+    			<div class="col-sm-offset-2 col-sm-10">
+      				<button type="submit" class="btn btn-default" value="submit"  ng-disabled="contactForm.$invalid" >Submit</button>
+    			</div>
+  			</div>
+
+		</form>
+	</div>
+
+
+	
+
+</body>
+</html>
